@@ -1,0 +1,14 @@
+.App {
+    text-align: center;
+    background-color: #282c34;
+    width: 100%;
+    height: 720px;
+    font-size: calc(10px + 2vmin);
+    color: red;
+  }
+  
+  .card {
+    display: inline-block;
+    margin: 6%; 
+    width: 20%;
+  }

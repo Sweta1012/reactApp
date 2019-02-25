@@ -1,51 +1,81 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.css'; 
 
 class App extends Component {
-  constructor(){
+
+  constructor (){
     super();
 
     this.state = {
-        fName: '',
-        Age: '',
-        Info: ''
+        list: [
+          {
+            title: "Earth",
+            description: "this is the description for the Earth title."
+          },
+          {
+            title: "Mars",
+            description: "this is the description for the Mars title."
+          },
+          {
+            title: "Jupiter",
+            description: "this is the description for the Jupiter title."
+          }
+        ]
     }
   }
 
-  showInfo = () => {
-    let fName = this.Name.value,
-        Age = this.Age.value;
+  addList = () => {
+    let list = this.state.list;
+    list.push({title: "New list", description: "This the new list created using button click method!!"});
 
     this.setState({
-      fName,
-      Age
+      list
     })
-
-    console.log(this.Name.value);
-    console.log(this.Age.value);
   }
 
-  goNext = (e)=> {
-    if(e.keyCode === 13){
-      this.Age.focus();
-    }
+  removeList = (key) => {
+    let list = this.state.list;
+   let newList = list.filter(function(item, index){
+      return index !== key;
+    });
+
+    this.setState({
+      list: newList
+    })
   }
 
+  changeContent = (key) => {
+    let list = this.state.list;
+    list[key].description = "Updated Content";
+
+    this.setState({
+      list
+    })
+  }
+  
   render() {
+
+    let list = this.state.list;
+   
     return (
-      <div className="App">
-        <form>
-            <label>Name: </label>
-            <input type="text" ref={(input)=>{this.Name = input}} onKeyUp={this.goNext} name="name" id="name" placeholder="Name"/>
-            <br/> <br/>
-            <label>Age: </label>
-            <input type="text" ref={(input)=>{this.Age = input}} name="age" id="age" placeholder="Age"/>
-            <br/> <br/>
-            <button type="button" onClick={this.showInfo}>Submit</button>
-            <h3>Name: {this.state.fName}</h3>
-            <h3>Age: {this.state.Age}</h3>
-        </form>
-      </div>
+        <div className="App">
+      
+            <div>
+            {
+              list.map((item,index) => {
+                return(
+                  <div className="card" key={index}>
+                      <li className="title">{item.title}</li>
+                      <li className="description">{item.description}</li>
+                      <button className="removeList" onClick={this.removeList.bind(this, index)}>Remove list</button>
+                      <button className="removeList" onClick={this.changeContent.bind(this, index)}>Change Content</button>
+                  </div>
+                )
+              })
+            }
+            </div>
+             <button className="addList" onClick={this.addList}>Add One more list</button>
+        </div>
     );
   }
 }
